@@ -1988,7 +1988,7 @@ section {
 }
 
 /* ================================
-   13. Preloader (Premium)
+   13. Preloader (Terminal Theme)
    ================================ */
 .preloader {
   position: fixed;
@@ -1996,101 +1996,126 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #020617;
-  /* Very dark blue/slate */
+  background-color: var(--bg-primary);
+  /* Use theme background */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
 
-.loader-content {
-  position: relative;
+.terminal-loader {
+  width: 90%;
+  max-width: 600px;
+  background: rgba(10, 10, 15, 0.7);
+  /* Transparent dark */
+  backdrop-filter: blur(10px);
+  /* Glass effect */
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px var(--border-color);
+  /* Subtle border */
+  overflow: hidden;
+  font-family: var(--font-mono);
+  border: 1px solid var(--glass-border);
+}
+
+.terminal-header {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 15px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Glowing Ring Spinner */
-.loader-spinner {
-  width: 80px;
-  height: 80px;
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  border: 2px solid rgba(148, 163, 184, 0.1);
-  border-top-color: #38bdf8;
-  /* Sky blue */
-  border-right-color: #818cf8;
-  /* Indigo */
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-  animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-  margin-bottom: 20px;
 }
 
-/* Logo inside the spinner or above */
-/* Logo inside the spinner or above */
-.loader-logo {
-  font-family: 'Fira Code', monospace;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #38bdf8;
-  /* Solid Sky Blue */
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.5),
-    0 0 20px rgba(56, 189, 248, 0.3);
-  margin-bottom: 20px;
-  letter-spacing: -1px;
-  animation: pulse-glow 2s ease-in-out infinite;
+.terminal-dot.red {
+  background: #ff5f56;
+  box-shadow: 0 0 10px rgba(255, 95, 86, 0.5);
 }
 
-.preloader p {
-  color: #cbd5e1;
-  /* Lighter slate */
-  font-size: 0.9rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  animation: text-fade 1.5s ease-in-out infinite alternate;
+.terminal-dot.yellow {
+  background: #ffbd2e;
+  box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-
-  50% {
-    transform: rotate(180deg) scale(1.1);
-  }
-
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
+.terminal-dot.green {
+  background: #27c93f;
+  box-shadow: 0 0 10px rgba(39, 201, 63, 0.5);
 }
 
-@keyframes pulse-glow {
+.terminal-title {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.terminal-window {
+  padding: 20px;
+  height: 300px;
+  overflow-y: auto;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.terminal-line {
+  margin-bottom: 8px;
+  display: block;
+}
+
+.terminal-line.success {
+  color: var(--accent-emerald);
+  text-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+}
+
+.terminal-line.warning {
+  color: #fbbf24;
+}
+
+.terminal-line.error {
+  color: var(--accent-tertiary);
+}
+
+.terminal-line.system {
+  color: var(--accent-cyan);
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  background: var(--accent-primary);
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 5px;
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+@keyframes blink {
 
   0%,
   100% {
-    transform: scale(1);
     opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.5));
   }
 
   50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-    filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.6));
-  }
-}
-
-@keyframes text-fade {
-  from {
-    opacity: 0.4;
-  }
-
-  to {
-    opacity: 1;
+    opacity: 0;
   }
 }
 
