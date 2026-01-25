@@ -30,10 +30,19 @@
 
     <!-- Preloader -->
     <div class="preloader" id="preloader">
-        <div class="loader-content">
-            <div class="loader-logo">&lt;SA /&gt;</div>
-            <div class="loader-spinner"></div>
-            <p>Portfolyo Yükleniyor...</p>
+        <div class="terminal-loader">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+                <div class="terminal-title">~/portfolio/init.sh</div>
+            </div>
+            <div class="terminal-window" id="terminalWindow">
+                <!-- Javascript will inject content here -->
+                <span class="cursor">_</span>
+            </div>
         </div>
     </div>
 
@@ -116,6 +125,9 @@
                 <div class="mouse"></div>
                 <span>Aşağı Kaydır</span>
             </div>
+
+            <!-- Floating Code Particles Container -->
+            <div class="code-particles" id="codeParticles"></div>
         </section>
 
         <!-- Video Showcase -->

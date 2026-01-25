@@ -46,21 +46,55 @@ const projectsData = [
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     // Preloader Logic
-    setTimeout(() => {
-        const preloader = document.getElementById('preloader');
-        const appContent = document.getElementById('appContent');
+    // Terminal Boot Sequence
+    const terminalWindow = document.getElementById('terminalWindow');
+    const preloader = document.getElementById('preloader');
+    const appContent = document.getElementById('appContent');
 
-        preloader.style.opacity = '0';
+    const bootMessages = [
+        { text: "Initializing Core Systems...", type: "system", delay: 200 },
+        { text: "Loading User Profile: Sercan Akçelik", type: "normal", delay: 400 },
+        { text: "Connecting to GitHub API...", type: "warning", delay: 300 },
+        { text: "Fetching Repositories... [OK]", type: "success", delay: 300 },
+        { text: "Loading Assets: HTML5, CSS3, JS...", type: "normal", delay: 400 },
+        { text: "Starting UI Engine v2.0...", type: "system", delay: 300 },
+        { text: "System Ready. Launching...", type: "success", delay: 600 }
+    ];
+
+    let totalDelay = 0;
+
+    bootMessages.forEach((msg, index) => {
+        totalDelay += msg.delay;
         setTimeout(() => {
-            preloader.style.display = 'none';
-            appContent.classList.remove('hidden');
-            appContent.classList.add('visible');
+            const line = document.createElement('div');
+            line.className = `terminal-line ${msg.type}`;
+            line.textContent = `> ${msg.text}`;
 
-            // Init animations after load
-            initAnimations();
-            initTypewriter();
-        }, 600);
-    }, 2000);
+            // Insert before cursor
+            const cursor = document.querySelector('.cursor');
+            terminalWindow.insertBefore(line, cursor);
+
+            // Auto scroll to bottom
+            terminalWindow.scrollTop = terminalWindow.scrollHeight;
+
+            // If last message, fade out
+            if (index === bootMessages.length - 1) {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        appContent.classList.remove('hidden');
+                        appContent.classList.add('visible');
+
+                        // Start Site Animations
+                        initAnimations();
+                        initTypewriter();
+                        initCodeParticles(); // Start Particles
+                    }, 500);
+                }, 800);
+            }
+        }, totalDelay);
+    });
 
     // Theme Logic
     initTheme();
@@ -431,3 +465,45 @@ function initContactForm() {
         }, 3000);
     }
 }
+
+/* =========================================
+   Hero Code Particles Effect
+   ========================================= */
+function initCodeParticles() {
+    const container = document.getElementById('codeParticles');
+    if (!container) return;
+
+    const symbols = ['{ }', '</>', '&&', '||', '=>', 'func', 'const', 'let', 'if', 'return', '[ ]', '01', 'API', 'JSON'];
+    const particleCount = 35; // Increased count
+
+    for (let i = 0; i < particleCount; i++) {
+        const span = document.createElement('span');
+        span.classList.add('code-particle');
+
+        // Random Content
+        span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+        // Random Position
+        const left = Math.random() * 100;
+        span.style.left = `${left}%`;
+
+        // Random Size
+        const fontSize = Math.random() * (2.0 - 1.0) + 1.0; // Larger size
+        span.style.fontSize = `${fontSize}rem`;
+
+        // Random Color (Subtle tint of theme colors)
+        const colors = ['var(--accent-primary)', 'var(--accent-cyan)', 'var(--accent-emerald)', 'var(--text-muted)'];
+        span.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+        // Random Duration & Delay
+        const duration = Math.random() * (25 - 10) + 10; // 10s to 25s
+        const delay = Math.random() * 15; // 0s to 15s
+
+        span.style.animationDuration = `${duration}s`;
+        span.style.animationDelay = `-${delay}s`; // Negative delay to start immediately scattered
+
+        container.appendChild(span);
+    }
+}
+
+
