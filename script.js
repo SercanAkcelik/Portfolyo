@@ -212,7 +212,7 @@ function initNavbar() {
    Typewriter Effect
    ========================================= */
 function initTypewriter() {
-    const roles = ['Full Stack Developer', 'Frontend Uzmanı', 'Backend Developer', 'Problem Çözücü'];
+    const roles = ['Full Stack Developer', 'Web Arayüzleri', 'Backend Mimarisi', 'Modern Çözümler'];
     const textElement = document.getElementById('typingText');
     let roleIndex = 0;
     let charIndex = roles[0].length;
