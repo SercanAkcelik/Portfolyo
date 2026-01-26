@@ -52,49 +52,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContent = document.getElementById('appContent');
 
     const bootMessages = [
-        { text: "Initializing Core Systems...", type: "system", delay: 200 },
-        { text: "Loading User Profile: Sercan Akçelik", type: "normal", delay: 400 },
-        { text: "Connecting to GitHub API...", type: "warning", delay: 300 },
-        { text: "Fetching Repositories... [OK]", type: "success", delay: 300 },
-        { text: "Loading Assets: HTML5, CSS3, JS...", type: "normal", delay: 400 },
-        { text: "Starting UI Engine v2.0...", type: "system", delay: 300 },
-        { text: "System Ready. Launching...", type: "success", delay: 600 }
+        { text: "Initializing Systems...", type: "system" },
+        { text: "Loading Profile: Sercan Akçelik", type: "normal" },
+        { text: "Connecting GitHub...", type: "warning" },
+        { text: "Fetching Data... [OK]", type: "success" },
+        { text: "Starting UI v2.0...", type: "system" },
+        { text: "Ready. Launching...", type: "success" }
     ];
 
-    let totalDelay = 0;
+    async function typeWriter(text, element, speed = 20) {
+        for (let i = 0; i < text.length; i++) {
+            element.textContent += text.charAt(i);
+            terminalWindow.scrollTop = terminalWindow.scrollHeight;
+            await new Promise(r => setTimeout(r, speed));
+        }
+    }
 
-    bootMessages.forEach((msg, index) => {
-        totalDelay += msg.delay;
-        setTimeout(() => {
+    async function runBootSequence() {
+        const cursor = document.querySelector('.cursor');
+
+        for (const msg of bootMessages) {
             const line = document.createElement('div');
             line.className = `terminal-line ${msg.type}`;
-            line.textContent = `> ${msg.text}`;
+            line.textContent = '> '; // Prompt symbol
 
-            // Insert before cursor
-            const cursor = document.querySelector('.cursor');
             terminalWindow.insertBefore(line, cursor);
 
-            // Auto scroll to bottom
-            terminalWindow.scrollTop = terminalWindow.scrollHeight;
+            // Type the text content
+            await typeWriter(msg.text, line);
 
-            // If last message, fade out
-            if (index === bootMessages.length - 1) {
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                        appContent.classList.remove('hidden');
-                        appContent.classList.add('visible');
+            // Small pause between lines
+            await new Promise(r => setTimeout(r, 100));
+        }
 
-                        // Start Site Animations
-                        initAnimations();
-                        initTypewriter();
-                        initCodeParticles(); // Start Particles
-                    }, 500);
-                }, 800);
-            }
-        }, totalDelay);
-    });
+        // Final completion
+        await new Promise(r => setTimeout(r, 300));
+
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+            preloader.style.display = 'none';
+            appContent.classList.remove('hidden');
+            appContent.classList.add('visible');
+
+            // Start Site Animations
+            initAnimations();
+            initTypewriter();
+            initCodeParticles(); // Start Particles
+        }, 500);
+    }
+
+    // Start the sequence
+    runBootSequence();
 
     // Theme Logic
     initTheme();
@@ -474,36 +482,105 @@ function initCodeParticles() {
     if (!container) return;
 
     const symbols = ['{ }', '</>', '&&', '||', '=>', 'func', 'const', 'let', 'if', 'return', '[ ]', '01', 'API', 'JSON'];
-    const particleCount = 35; // Increased count
+    const particleCount = 80; // Increased density
+    const particles = [];
 
-    for (let i = 0; i < particleCount; i++) {
-        const span = document.createElement('span');
-        span.classList.add('code-particle');
+    // Mouse Tracking
+    let mouse = { x: -1000, y: -1000 };
+    document.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
 
-        // Random Content
-        span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    // Get container dimensions securely
+    const getContainerWidth = () => container.offsetWidth > 0 ? container.offsetWidth : window.innerWidth;
+    const getContainerHeight = () => container.offsetHeight > 0 ? container.offsetHeight : window.innerHeight;
 
-        // Random Position
-        const left = Math.random() * 100;
-        span.style.left = `${left}%`;
+    // Particle Class
+    class Particle {
+        constructor() {
+            this.element = document.createElement('span');
+            this.element.classList.add('code-particle');
+            this.element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
 
-        // Random Size
-        const fontSize = Math.random() * (2.0 - 1.0) + 1.0; // Larger size
-        span.style.fontSize = `${fontSize}rem`;
+            container.appendChild(this.element);
 
-        // Random Color (Subtle tint of theme colors)
-        const colors = ['var(--accent-primary)', 'var(--accent-cyan)', 'var(--accent-emerald)', 'var(--text-muted)'];
-        span.style.color = colors[Math.floor(Math.random() * colors.length)];
+            // Style Config
+            const colors = ['var(--accent-primary)', 'var(--accent-cyan)', 'var(--accent-emerald)', 'var(--text-muted)'];
+            this.element.style.color = colors[Math.floor(Math.random() * colors.length)];
+            this.element.style.fontSize = `${Math.random() * (1.5 - 0.8) + 0.8}rem`;
+            this.element.style.opacity = Math.random() * 0.5 + 0.1;
 
-        // Random Duration & Delay
-        const duration = Math.random() * (25 - 10) + 10; // 10s to 25s
-        const delay = Math.random() * 15; // 0s to 15s
+            // Physics Stats (Random Position across full width)
+            // Use window.innerWidth to ensure we cover the screen even if container has issues
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
 
-        span.style.animationDuration = `${duration}s`;
-        span.style.animationDelay = `-${delay}s`; // Negative delay to start immediately scattered
+            // Allow negative offset for immediate left-side coverage
+            this.x = (Math.random() * (screenWidth + 100)) - 50;
+            this.y = Math.random() * screenHeight;
 
-        container.appendChild(span);
+            // Left <-> Right Random Drift (Balanced)
+            this.vx = (Math.random() - 0.5) * 0.6;
+            this.vy = (Math.random() - 0.5) * 0.5;
+
+            // Interaction Stats
+            this.friction = 0.96;
+            this.ease = 0.1;
+
+            this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+        }
+
+        update() {
+            // 1. Natural Floating
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Boundary Wrap (Seamless)
+            const padding = 50;
+            const width = getContainerWidth();
+            const height = getContainerHeight();
+
+            if (this.x > width + padding) {
+                this.x = -padding;
+                this.y = Math.random() * height;
+            }
+            if (this.x < -padding) this.x = width + padding;
+
+            if (this.y < -padding) this.y = height + padding;
+            if (this.y > height + padding) this.y = -padding;
+
+            // 2. Mouse Interaction (Stronger Push)
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const radius = 250; // Increased impact range
+
+            if (distance < radius) {
+                const force = (radius - distance) / radius;
+                const angle = Math.atan2(dy, dx);
+                // Much stronger push (High impact)
+                const pushX = Math.cos(angle) * force * 8;
+                const pushY = Math.sin(angle) * force * 8;
+
+                this.x -= pushX;
+                this.y -= pushY;
+            }
+
+            // Apply Position
+            this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+        }
     }
+
+    // Init Particles
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+
+    // Animation Loop
+    function animate() {
+        particles.forEach(p => p.update());
+        requestAnimationFrame(animate);
+    }
+    animate();
 }
-
-

@@ -64,6 +64,27 @@
   --radius-xl: 30px;
 }
 
+/* ================================
+   Custom Scrollbar
+   ================================ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
 /* Light Mode Variables */
 body.light-mode {
   --bg-primary: #f8fafc;
@@ -2174,10 +2195,10 @@ section {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
+  height: 100vh;
   z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .code-particle {
@@ -2185,31 +2206,10 @@ section {
   color: var(--text-muted);
   font-family: 'Fira Code', monospace;
   opacity: 0.3;
-  /* Increased from 0.1 for better visibility */
   font-weight: bold;
   user-select: none;
-  animation: floatCode 15s linear infinite;
   text-shadow: 0 0 10px currentColor;
-  /* Added Neon Glow */
-}
-
-@keyframes floatCode {
-  0% {
-    transform: translateY(110vh) rotate(0deg);
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 0.4;
-  }
-
-  /* Increased peak opacity */
-  80% {
-    opacity: 0.4;
-  }
-
-  100% {
-    transform: translateY(-10vh) rotate(360deg);
-    opacity: 0;
-  }
+  /* Neon Glow */
+  will-change: transform;
+  /* Performance optimization */
 }
