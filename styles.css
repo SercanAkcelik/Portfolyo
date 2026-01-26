@@ -364,6 +364,8 @@ section {
   justify-content: center;
   text-align: center;
   padding-top: 80px;
+  padding-bottom: 120px;
+  /* Prevent overlap with scroll indicator */
 }
 
 .hero-content {
@@ -447,6 +449,13 @@ section {
 .social-link {
   width: 60px;
   height: 60px;
+  min-width: 60px;
+  /* Force circle shape */
+  min-height: 60px;
+  padding: 0;
+  /* Remove unintended padding */
+  flex-shrink: 0;
+  /* Prevent squashing */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -461,6 +470,12 @@ section {
   transition: var(--transition-normal);
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
   /* Subtle glow */
+}
+
+.social-link i {
+  line-height: 0;
+  /* Fix vertical alignment issues */
+  display: flex;
 }
 
 .social-link:hover {
