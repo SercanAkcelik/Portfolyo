@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function runBootSequence() {
         const cursor = document.querySelector('.cursor');
 
+        // Scroll Lock: Prevent scrolling during loading
+        document.body.style.overflow = 'hidden';
+
         for (const msg of bootMessages) {
             const line = document.createElement('div');
             line.className = `terminal-line ${msg.type}`;
@@ -93,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
             preloader.style.display = 'none';
             appContent.classList.remove('hidden');
             appContent.classList.add('visible');
+
+            // Scroll Unlock: Re-enable scrolling
+            document.body.style.overflow = '';
 
             // Start Site Animations
             initAnimations();
@@ -482,15 +488,22 @@ function initCodeParticles() {
     if (!container) return;
 
     const symbols = ['{ }', '</>', '&&', '||', '=>', 'func', 'const', 'let', 'if', 'return', '[ ]', '01', 'API', 'JSON'];
-    const particleCount = 80; // Increased density
+
+    // Performance Optimization: Reduce particles on mobile
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 40 : 80;
     const particles = [];
 
     // Mouse Tracking
     let mouse = { x: -1000, y: -1000 };
-    document.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
+
+    // Disable expensive operations on mobile
+    if (!isMobile) {
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+    }
 
     // Get container dimensions securely
     const getContainerWidth = () => container.offsetWidth > 0 ? container.offsetWidth : window.innerWidth;
@@ -550,21 +563,23 @@ function initCodeParticles() {
             if (this.y < -padding) this.y = height + padding;
             if (this.y > height + padding) this.y = -padding;
 
-            // 2. Mouse Interaction (Stronger Push)
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const radius = 250; // Increased impact range
+            // 2. Mouse Interaction (Stronger Push) - Disabled on Mobile
+            if (!isMobile) {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const radius = 250; // Increased impact range
 
-            if (distance < radius) {
-                const force = (radius - distance) / radius;
-                const angle = Math.atan2(dy, dx);
-                // Much stronger push (High impact)
-                const pushX = Math.cos(angle) * force * 8;
-                const pushY = Math.sin(angle) * force * 8;
+                if (distance < radius) {
+                    const force = (radius - distance) / radius;
+                    const angle = Math.atan2(dy, dx);
+                    // Much stronger push (High impact)
+                    const pushX = Math.cos(angle) * force * 8;
+                    const pushY = Math.sin(angle) * force * 8;
 
-                this.x -= pushX;
-                this.y -= pushY;
+                    this.x -= pushX;
+                    this.y -= pushY;
+                }
             }
 
             // Apply Position
