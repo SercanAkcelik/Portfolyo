@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { text: "Ready. Launching...", type: "success" }
     ];
 
-    async function typeWriter(text, element, speed = 20) {
+    async function typeWriter(text, element, speed = 10) { // Faster typing (10ms)
         for (let i = 0; i < text.length; i++) {
             element.textContent += text.charAt(i);
             terminalWindow.scrollTop = terminalWindow.scrollHeight;
@@ -81,12 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Type the text content
             await typeWriter(msg.text, line);
 
-            // Small pause between lines
-            await new Promise(r => setTimeout(r, 100));
+            // Minimal pause between lines (30ms)
+            await new Promise(r => setTimeout(r, 30));
         }
 
-        // Final completion
-        await new Promise(r => setTimeout(r, 300));
+        // Final completion (100ms)
+        await new Promise(r => setTimeout(r, 100));
 
         preloader.style.opacity = '0';
         setTimeout(() => {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initAnimations();
             initTypewriter();
             initCodeParticles(); // Start Particles
-        }, 500);
+        }, 200); // Faster fade out
     }
 
     // Start the sequence
