@@ -1810,7 +1810,10 @@ section {
     /* Un-stack them */
     width: 100%;
     height: auto;
-    aspect-ratio: 16/10;
+    min-height: 450px;
+    /* Ensure visual consistency */
+    aspect-ratio: auto;
+    /* Allow expanding */
     /* Maintain aspect ratio */
     transform: none !important;
     /* Reset rotation */
