@@ -5,11 +5,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
     {
-        title: "E-Ticaret Platformu",
-        descFull: "Modern işletmeler için geliştirilmiş, yüksek performanslı ve ölçeklenebilir e-ticaret platformu. Gelişmiş stok takibi, detaylı raporlama, sanal POS entegrasyonu ve mobil uyumlu arayüzü ile tam kapsamlı bir satış deneyimi sunar.",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-        techStack: ["React", "Node.js", "MongoDB", "Stripe"],
-        github: "#private"
+        title: "LezzetBurger - Restoran Yönetimi",
+        descFull: "Restoran operasyonlarını dijitalleştiren kapsamlı web çözümü. Dinamik dijital menü, online rezervasyon sistemi ve detaylı yönetim paneli (Dashboard, CRUD işlemler) içerir. Katmanlı Mimari (N-Tier), Entity Framework Core ve Repository Pattern prensipleriyle geliştirilmiş profesyonel bir showcase projesidir.",
+        image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&h=400&fit=crop",
+        techStack: ["ASP.NET Core MVC", "Entity Framework Core", "MS SQL Server", "Bootstrap"],
+        github: "https://github.com/SercanAkcelik/AspNet-Core-Restaurant-App"
     },
     {
         title: "Kripto Trading Bot",
