@@ -67,6 +67,7 @@
                     <li><a href="#skills" class="nav-link">Yetenekler</a></li>
                     <li><a href="#career" class="nav-link">Kariyer</a></li>
                     <li><a href="#projects" class="nav-link">Projeler</a></li>
+                    <li><a href="#" class="nav-link" id="blogLink">Blog</a></li>
                     <li><a href="#contact" class="nav-link">İletişim</a></li>
                 </ul>
 
@@ -599,6 +600,8 @@
             </div>
         </section>
 
+
+
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
@@ -620,6 +623,49 @@
                 </div>
             </div>
         </footer>
+    </div>
+
+
+    <!-- Blog Overlay (Moved to end of body for z-index safety) -->
+    <div id="blogOverlay" class="blog-overlay">
+        <div class="blog-container">
+            <div class="blog-header">
+                <h2>Blog & Notlar</h2>
+                <button id="closeBlog" class="close-blog-btn" aria-label="Kapat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Blog List View -->
+            <div id="blogList" class="blog-list-view">
+                <!-- Blog posts will be injected here -->
+            </div>
+
+            <!-- Blog Detail View (Hidden by default) -->
+            <div id="blogDetail" class="blog-detail-view hidden">
+                <button id="backToBlog" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Listeye Dön
+                </button>
+                <article class="blog-article">
+                    <div class="article-header">
+                        <span class="article-date" id="articleDate"></span>
+                        <span class="article-tag" id="articleTag"></span>
+                        <h1 id="articleTitle"></h1>
+                    </div>
+                    <div class="article-content" id="articleContent">
+                        <!-- Content injected here -->
+                    </div>
+
+                    <!-- Share Buttons -->
+                    <div class="article-footer">
+                        <h3>Paylaş:</h3>
+                        <div class="share-buttons" id="shareButtons">
+                            <!-- Buttons injected by JS -->
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

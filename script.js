@@ -599,3 +599,245 @@ function initCodeParticles() {
     }
     animate();
 }
+
+/* =========================================
+   Blog System (Overlay & Data)
+   ========================================= */
+const blogData = [
+    {
+        id: 4,
+        slug: "dotnet-teknoloji-devinin-evrimi",
+        title: ".NET: Bir Teknoloji Devinin Evrimi ve Modern Dönüşümü",
+        date: "9 Şubat 2026",
+        tag: "Teknoloji Tarihi",
+        excerpt: "Microsoft'un 2000'lerin başında \"Windows için uygulama geliştirme\" vizyonuyla yola çıktığı bu dev gemi, bugün her platformda çalışan modern bir hız teknesine nasıl dönüştü?",
+        content: `
+            <p>Yazılım dünyasında bazı teknolojiler vardır ki, sadece bir "araç" olmaktan öte, bir dönemi tanımlarlar. Microsoft'un .NET ekosistemi de bunlardan biri. 2000'lerin başında "Windows için uygulama geliştirme" vizyonuyla yola çıkan bu dev gemi, bugün her platformda çalışan, açık kaynaklı ve modern bir hız teknesine dönüştü.</p>
+            <p>Gelin, bu 20 yıllık serüvene ve .NET'in kabuk değiştirmesine yakından bakalım.</p>
+
+            <h2>1. Başlangıç: .NET Framework ve Windows İmparatorluğu (2002)</h2>
+            <p>2000'li yılların başına dönelim. Web dünyası henüz emekliyor, Java "Write once, run anywhere" sloganıyla ortalığı kasıp kavuruyordu. Microsoft'un buna cevabı <strong>.NET Framework</strong> oldu.</p>
+            <p>Amaç basitti ama iddialıydı: C++, Visual Basic gibi farklı dilleri konuşan geliştiricileri aynı çatı altında (CLR - Common Language Runtime) toplamak. Artık hangi dilde yazdığınızın önemi yoktu; hepsi aynı makine diline derleniyordu.</p>
+            <p>Bu dönemde .NET demek, Windows demekti.</p>
+            <ul>
+                <li><strong>Masaüstünde:</strong> WinForms ile sürükle-bırak kolaylığında uygulamalar geliştirdik. Sonrasında gelen WPF, arayüz tasarımına XAML ile bambaşka bir boyut kazandırdı.</li>
+                <li><strong>Webde:</strong> ASP.NET, masaüstü geliştirme deneyimini web'e taşıdı. Ancak o dönemin "Web Forms" yapısı, HTTP'nin vatansız (stateless) doğasını gizlemeye çalışan ağır bir soyutlamaydı.</li>
+            </ul>
+
+            <h2>2. Web'in Olgunlaşması: ASP.NET MVC Devrimi</h2>
+            <p>Yıllar geçtikçe web standartları değişti. Geliştiriciler HTML üzerinde tam kontrol istiyordu. Microsoft bu çağrıya <strong>ASP.NET MVC</strong> ile yanıt verdi.</p>
+            <p>"Sürükle bırak" devri kapanmış, yerini "Model-View-Controller" mimarisinin temizliği ve disiplini almıştı. Bu, modern web geliştirmeye atılan ilk ciddi adımdı ama hala bir sorun vardı: Her şey hala Windows Sunucularına (IIS) ve devasa <code>System.Web</code> kütüphanesine bağımlıydı.</p>
+            
+            <h2>3. Kırılma Noktası: .NET Core ve Açık Kaynak Rüzgarı (2016)</h2>
+            <p>2016 yılı, Microsoft tarihinde bir milattır. Satya Nadella vizyonuyla şirket, "Windows-First" yaklaşımından "Cloud-First, Mobile-First" yaklaşımına geçti. Ve <strong>.NET Core</strong> doğdu.</p>
+            <p>Bu sadece bir sürüm güncellemesi değildi; bu bir felsefe değişimiydi.</p>
+            <ul>
+                <li><strong>Platform Bağımsız:</strong> Artık kodunuzu Windows'ta yazıp, maliyeti düşük Linux sunucularda veya macOS üzerinde çalıştırabiliyordunuz.</li>
+                <li><strong>Performans:</strong> Eski hantal yapılar atıldı. Modüler, hafif ve inanılmaz hızlı bir yapı inşa edildi.</li>
+                <li><strong>Açık Kaynak:</strong> Microsoft kodlarını GitHub'a açtı. Artık .NET, topluluğun da katkı verebildiği canlı bir organizmaydı.</li>
+            </ul>
+
+            <h2>4. Modern Web'in Gücü: ASP.NET Core</h2>
+            <p>Eski ASP.NET ile ASP.NET Core arasındaki fark, nostaljik bir Amerikan arabasıyla modern bir elektrikli araç arasındaki fark gibidir. ASP.NET Core ile birlikte:</p>
+            <ul>
+                <li><strong>Dependency Injection (Bağımlılık Enjeksiyonu)</strong> framework'ün kalbine yerleştirildi.</li>
+                <li><strong>Middleware (Ara Yazılım)</strong> yapısı sayesinde HTTP isteklerini yönetmek esnekleşti.</li>
+                <li><strong>Konteyner Dostu:</strong> Docker ve Kubernetes ile mükemmel uyum sağlandı.</li>
+            </ul>
+            <p>Bugün bir startup veya kurumsal dev fark etmeksizin, yeni bir projeye başlanacaksa adres bellidir: <strong>ASP.NET Core.</strong></p>
+
+            <h2>5. Büyük Birleşme: .NET 5 ve Sonrası</h2>
+            <p>Microsoft bir süre boyunca "Framework" (Eski/Windows) ve "Core" (Yeni/Cross-Platrom) yapılarını paralel götürdü. Bu durum kafa karışıklığı yaratınca, 2020'de "Core" takısını atıp yola sadece <strong>.NET</strong> olarak devam etme kararı alındı (.NET 5).</p>
+            <p>Artık "Hangi versiyonu kullanmalıyım?" sorusu yok.</p>
+            <ul>
+                <li><strong>Tek Platform:</strong> Web, Mobil, Masaüstü, Bulut, AI... Hepsi tek bir SDK, tek bir BCL (Base Class Library) üzerinde.</li>
+                <li><strong>Sürekli Evrim:</strong> Her yıl kasım ayında yeni bir ana sürüm (.NET 6, 7, 8...) yayınlanıyor ve performans limitleri sürekli zorlanıyor.</li>
+            </ul>
+
+            <h3>Sonuç: Neden Bugün .NET?</h3>
+            <p>Eskiden .NET, "Kurumsal şirketlerin hantal teknolojisi" olarak görülürdü. Bugün ise Stack Overflow anketlerinde "En çok sevilen framework" listelerinin zirvesinde oynuyor.</p>
+            <p>C#'ın modern yetenekleri, Visual Studio gibi güçlü IDE'ler ve arkasındaki devasa toplulukla .NET; sadece bir kodlama ortamı değil, sürdürülebilir bir kariyer yatırımıdır. İster bir mobil oyun yapın, ister milyonlarca isteği karşılayan bir mikroservis mimarisi kurun; .NET'in alet çantasında size uygun bir çözüm mutlaka var.</p>
+        `
+    }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    initBlogSystem();
+});
+
+function initBlogSystem() {
+    console.log("Initializing Blog System...");
+
+    const blogLink = document.getElementById('blogLink');
+    const blogOverlay = document.getElementById('blogOverlay');
+    const closeBlogBtn = document.getElementById('closeBlog');
+    const blogList = document.getElementById('blogList');
+    const blogDetail = document.getElementById('blogDetail');
+    const backToBlogBtn = document.getElementById('backToBlog');
+
+    // Blog Elements
+    const articleTitle = document.getElementById('articleTitle');
+    const articleDate = document.getElementById('articleDate');
+    const articleTag = document.getElementById('articleTag');
+    const articleContent = document.getElementById('articleContent');
+
+    if (!blogLink) console.error("Blog Link not found!");
+    if (!blogOverlay) console.error("Blog Overlay not found!");
+
+    if (!blogLink || !blogOverlay) return;
+
+    // Open Overlay
+    blogLink.addEventListener('click', (e) => {
+        console.log("Blog Link Clicked!");
+        e.preventDefault();
+        e.stopPropagation(); // Stop bubbling to prevent navbar from closing implicitly if it interferes
+
+        blogOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        renderBlogList();
+        history.pushState(null, null, '#blog'); // Set generic blog hash
+    });
+
+    // Close Overlay
+    closeBlogBtn.addEventListener('click', () => {
+        blogOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            showListView(); // Reset view when closed
+        }, 400);
+        history.pushState(null, null, ' '); // Clear hash
+    });
+
+    // Back to List
+    if (backToBlogBtn) {
+        backToBlogBtn.addEventListener('click', () => {
+            showListView();
+            history.pushState(null, null, '#blog'); // Return to generic blog hash
+        });
+    }
+
+    console.log("Blog System Initialized Successfully");
+
+    // Handle Deep Linking on Load
+    function checkHash() {
+        const hash = window.location.hash.substring(1); // Remove '#'
+        if (!hash) return;
+
+        if (hash === 'blog') {
+            blogOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderBlogList();
+            return;
+        }
+
+        const post = blogData.find(p => p.slug === hash);
+        if (post) {
+            blogOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            openArticle(post);
+        }
+    }
+
+    // Check hash on init
+    checkHash();
+
+    // Listen for hash changes (e.g. browser back button)
+    window.addEventListener('hashchange', checkHash);
+
+
+    function renderBlogList() {
+        console.log("Rendering Blog List...");
+        if (!blogList) {
+            console.error("Blog List container not found!");
+            return;
+        }
+        blogList.innerHTML = '';
+        blogData.forEach(post => {
+            const card = document.createElement('div');
+            card.className = 'blog-card-item';
+            card.onclick = () => openArticle(post);
+
+            card.innerHTML = `
+                <div class="blog-card-meta">
+                    <span class="blog-date"><i class="far fa-calendar-alt"></i> ${post.date}</span>
+                    <span class="blog-tag">#${post.tag}</span>
+                </div>
+                <h3 class="blog-card-title">${post.title}</h3>
+                <p class="blog-card-excerpt">${post.excerpt}</p>
+                <span class="read-more-link">Devamını Oku <i class="fas fa-arrow-right"></i></span>
+            `;
+            blogList.appendChild(card);
+        });
+    }
+
+    function openArticle(post) {
+        // Populate Data
+        articleTitle.textContent = post.title;
+        articleDate.textContent = post.date;
+        articleTag.textContent = `#${post.tag}`;
+        articleContent.innerHTML = post.content;
+
+        // Switch Views
+        blogList.classList.add('hidden');
+        blogList.style.display = 'none';
+
+        blogDetail.classList.remove('hidden');
+        blogDetail.classList.add('active');
+
+        // Scroll to top of container
+        document.querySelector('.blog-overlay').scrollTop = 0;
+
+        // Update URL
+        history.pushState(null, null, `#${post.slug}`);
+
+        // Render Share Buttons
+        renderShareButtons(post);
+    }
+
+    function renderShareButtons(post) {
+        const shareContainer = document.getElementById('shareButtons');
+        const currentUrl = window.location.href;
+        const text = `"${post.title}" yazısını incele:`;
+
+        // Social Links
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(currentUrl)}`;
+        const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + " " + currentUrl)}`;
+
+        shareContainer.innerHTML = `
+            <a href="${twitterUrl}" target="_blank" class="share-btn btn-twitter">
+                <i class="fab fa-x-twitter"></i> X (Twitter)
+            </a>
+            <a href="${linkedinUrl}" target="_blank" class="share-btn btn-linkedin">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="${whatsappUrl}" target="_blank" class="share-btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <button class="share-btn btn-copy" id="copyLinkBtn">
+                <i class="fas fa-link"></i> Linki Kopyala
+            </button>
+        `;
+
+        // Copy Link Logic
+        document.getElementById('copyLinkBtn').addEventListener('click', function () {
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
+                this.style.borderColor = 'var(--accent-emerald)';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.borderColor = '';
+                }, 2000);
+            });
+        });
+    }
+
+    function showListView() {
+        blogDetail.classList.remove('active');
+        blogDetail.classList.add('hidden');
+
+        blogList.style.display = 'block';
+        blogList.classList.remove('hidden');
+    }
+}
