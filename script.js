@@ -104,6 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
             initAnimations();
             initTypewriter();
             initCodeParticles(); // Start Particles
+
+            // Signal that preloader is done (for deep-link handling)
+            window.dispatchEvent(new Event('preloaderDone'));
         }, 200); // Faster fade out
     }
 
@@ -710,7 +713,7 @@ function initBlogSystem() {
         setTimeout(() => {
             showListView(); // Reset view when closed
         }, 400);
-        history.pushState(null, null, ' '); // Clear hash
+        history.pushState(null, null, window.location.pathname); // Clear hash properly
     });
 
     // Back to List
@@ -726,11 +729,23 @@ function initBlogSystem() {
     // Handle Deep Linking on Load
     function checkHash() {
         const hash = window.location.hash.substring(1); // Remove '#'
-        if (!hash) return;
+
+        // If hash is empty, close overlay (handles back button)
+        if (!hash || hash.trim() === '') {
+            if (blogOverlay.classList.contains('active')) {
+                blogOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    showListView(); // Reset view when closed
+                }, 400);
+            }
+            return;
+        }
 
         if (hash === 'blog') {
             blogOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            showListView(); // Reset to list view first
             renderBlogList();
             return;
         }
@@ -739,12 +754,25 @@ function initBlogSystem() {
         if (post) {
             blogOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            renderBlogList(); // Ensure blog list is rendered for back navigation
             openArticle(post);
         }
     }
 
-    // Check hash on init
-    checkHash();
+    // Defer hash check until preloader is done
+    // This prevents the blog overlay from opening over a hidden appContent
+    function deferredCheckHash() {
+        const preloader = document.getElementById('preloader');
+        if (preloader && preloader.style.display !== 'none') {
+            // Preloader still active, wait for it to finish
+            window.addEventListener('preloaderDone', () => checkHash(), { once: true });
+        } else {
+            // Preloader already done, check immediately
+            checkHash();
+        }
+    }
+
+    deferredCheckHash();
 
     // Listen for hash changes (e.g. browser back button)
     window.addEventListener('hashchange', checkHash);
