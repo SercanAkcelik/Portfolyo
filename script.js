@@ -68,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Check if we have a blog deep link — if so, skip preloader entirely
+    const initialHash = window.location.hash.substring(1);
+    const isBlogDeepLink = initialHash === 'blog' || blogData.some(p => p.slug === initialHash);
+
     async function runBootSequence() {
         const cursor = document.querySelector('.cursor');
 
@@ -91,6 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Final completion (100ms)
         await new Promise(r => setTimeout(r, 100));
 
+        finishPreloader();
+    }
+
+    function finishPreloader() {
         preloader.style.opacity = '0';
         setTimeout(() => {
             preloader.style.display = 'none';
@@ -110,8 +118,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200); // Faster fade out
     }
 
-    // Start the sequence
-    runBootSequence();
+    // If blog deep link, skip preloader and show content immediately
+    if (isBlogDeepLink) {
+        preloader.style.display = 'none';
+        appContent.classList.remove('hidden');
+        appContent.classList.add('visible');
+        document.body.style.overflow = '';
+        initAnimations();
+        initTypewriter();
+        initCodeParticles();
+        window.dispatchEvent(new Event('preloaderDone'));
+    } else {
+        runBootSequence();
+    }
 
     // Theme Logic
     initTheme();
@@ -759,20 +778,9 @@ function initBlogSystem() {
         }
     }
 
-    // Defer hash check until preloader is done
-    // This prevents the blog overlay from opening over a hidden appContent
-    function deferredCheckHash() {
-        const preloader = document.getElementById('preloader');
-        if (preloader && preloader.style.display !== 'none') {
-            // Preloader still active, wait for it to finish
-            window.addEventListener('preloaderDone', () => checkHash(), { once: true });
-        } else {
-            // Preloader already done, check immediately
-            checkHash();
-        }
-    }
-
-    deferredCheckHash();
+    // Wait for preloaderDone event before checking hash
+    // preloaderDone is dispatched both after normal preloader and after skip
+    window.addEventListener('preloaderDone', () => checkHash(), { once: true });
 
     // Listen for hash changes (e.g. browser back button)
     window.addEventListener('hashchange', checkHash);
@@ -810,8 +818,7 @@ function initBlogSystem() {
         articleTag.textContent = `#${post.tag}`;
         articleContent.innerHTML = post.content;
 
-        // Switch Views
-        blogList.classList.add('hidden');
+        // Switch Views — hide list, show detail
         blogList.style.display = 'none';
 
         blogDetail.classList.remove('hidden');
@@ -870,7 +877,11 @@ function initBlogSystem() {
         blogDetail.classList.remove('active');
         blogDetail.classList.add('hidden');
 
-        blogList.style.display = 'block';
+        // Reset to CSS default (grid) instead of 'block'
+        blogList.style.display = '';
         blogList.classList.remove('hidden');
+
+        // Re-render blog list to ensure cards are fresh
+        renderBlogList();
     }
 }
