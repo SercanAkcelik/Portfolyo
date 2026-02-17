@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initCodeParticles(); // Start Particles
 
             // Signal that preloader is done (for deep-link handling)
+            window._preloaderDone = true;
             window.dispatchEvent(new Event('preloaderDone'));
         }, 200); // Faster fade out
     }
@@ -127,7 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
         initAnimations();
         initTypewriter();
         initCodeParticles();
-        window.dispatchEvent(new Event('preloaderDone'));
+        // Set flag and dispatch event async so blog system can register listener first
+        window._preloaderDone = true;
+        setTimeout(() => window.dispatchEvent(new Event('preloaderDone')), 0);
     } else {
         runBootSequence();
     }
@@ -778,9 +781,14 @@ function initBlogSystem() {
         }
     }
 
-    // Wait for preloaderDone event before checking hash
-    // preloaderDone is dispatched both after normal preloader and after skip
-    window.addEventListener('preloaderDone', () => checkHash(), { once: true });
+    // Check hash once preloader is done
+    if (window._preloaderDone) {
+        // Preloader already finished, check immediately
+        checkHash();
+    } else {
+        // Wait for preloaderDone event
+        window.addEventListener('preloaderDone', () => checkHash(), { once: true });
+    }
 
     // Listen for hash changes (e.g. browser back button)
     window.addEventListener('hashchange', checkHash);
